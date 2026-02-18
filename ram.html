@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VMPC Study | Proper Portal</title>
+    <style>
+        :root { --blue: #002366; --gold: #ffcc00; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); }
+
+        /* Full Screen Login/Register */
+        #authWrapper { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(135deg, var(--blue), #0056b3); 
+            display: flex; justify-content: center; align-items: center; z-index: 9999; 
+        }
+        .auth-card { background: white; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        /* Main Website (Hidden by default) */
+        #mainWebsite { display: none; }
+        
+        nav { background: var(--blue); padding: 15px; display: flex; justify-content: center; gap: 15px; position: sticky; top: 0; z-index: 100; }
+        nav button { background: none; border: 1px solid var(--gold); color: white; padding: 8px 15px; cursor: pointer; border-radius: 5px; }
+        nav button:hover { background: var(--gold); color: black; }
+
+        .section { padding: 40px 10%; display: none; }
+        .active-section { display: block; }
+
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: var(--blue); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        /* Code Runner Styling */
+        .editor { background: #1e1e1e; color: #d4d4d4; padding: 15px; font-family: 'Courier New', monospace; height: 150px; border-radius: 8px; }
+        #outputFrame { width: 100%; height: 300px; background: white; border: 3px solid var(--blue); margin-top: 15px; border-radius: 8px; }
+        
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <div id="authWrapper">
+        <div class="auth-card" id="loginBox">
+            <h2 style="color: var(--blue);">VMPC Study Login</h2>
+            <input type="email" id="logEmail" placeholder="Email ID">
+            <input type="password" id="logPass" placeholder="Mobile Number (Password)">
+            <button class="btn" onclick="checkLogin()">Login</button>
+            <p style="font-size: 14px;">Naya account banayein? <a href="#" onclick="toggleAuth(true)">Registration</a></p>
+            <p style="font-size: 11px; color: gray;">Master Login: admin@gmail.com | 9179815129</p>
+        </div>
+
+        <div class="auth-card" id="regBox" style="display: none;">
+            <h2 style="color: var(--blue);">Registration</h2>
+            <input type="text" id="rName" placeholder="Full Name">
+            <input type="email" id="rEmail" placeholder="Email ID">
+            <input type="tel" id="rPhone" placeholder="Mobile Number">
+            <input type="date" id="rDob">
+            <button class="btn" style="background: #28a745;" onclick="processReg()">Register Now</button>
+            <p style="font-size: 14px;"><a href="#" onclick="toggleAuth(false)">Back to Login</a></p>
+        </div>
+    </div>
+
+    <div id="mainWebsite">
+        <nav>
+            <button onclick="showSec('videos')">Videos</button>
+            <button onclick="showSec('notes')">BCA Notes</button>
+            <button onclick="showSec('compiler')">Code Runner</button>
+            <button onclick="showSec('contact')">Contact Us</button>
+            <button onclick="location.reload()" style="background: #d9534f; border: none;">Logout</button>
+        </nav>
+
+        <div id="videos" class="section active-section">
+            <h2>BCA Video Tutorials</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="card">
+                    <iframe src="https://www.youtube.com/embed/irqbmMNs2Bo"></iframe>
+                    <p><b>C++ Programming Course</b></p>
+                </div>
+                <div class="card">
+                    <iframe src="https://www.youtube.com/embed/vLnPwxZdW4Y"></iframe>
+                    <p><b>Data Structures & Algorithms</b></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="notes" class="section">
+            <h2>BCA Study Material (Notes)</h2>
+            <div class="card">
+                <h3>Semester 1: Computer Fundamentals</h3>
+                <p>Digital electronics aur computer hardware ke basic notes yahan se download karein.</p>
+                <button class="btn" style="width: auto;" onclick="alert('PDF Downloading...')">Download PDF</button>
+            </div>
+        </div>
+
+        <div id="compiler" class="section">
+            <h2>BCA Practice Lab</h2>
+            <textarea id="codeArea" class="editor" placeholder="<html><body><h1>Hello VMPC Study</h1></body></html>"></textarea>
+            <button class="btn" style="margin-top: 10px; background: var(--gold); color: black;" onclick="runMyCode()">Run Code</button>
+            <iframe id="outputFrame"></iframe>
+        </div>
+
+        <div id="contact" class="section">
+            <div class="card" style="max-width: 500px; margin: auto;">
+                <h2>Ask Admin (Veerendra Mishra)</h2>
+                <form action="https://formspree.io/f/veerendramishra628@gmail.com" method="POST">
+                    <input type="text" name="Name" placeholder="Aapka Naam" required>
+                    <input type="email" name="Email" placeholder="Aapka Email" required>
+                    <textarea name="Question" placeholder="BCA se juda koi bhi sawal puchein..." rows="5" required></textarea>
+                    <button type="submit" class="btn">Send Question to Email</button>
+                </form>
+                <div style="margin-top: 20px; text-align: center;">
+                    <p>WhatsApp: 9179815129</p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://vmpcstudy.com" alt="QR">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fake Database
+        let db = {
+            email: "admin@gmail.com",
+            phone: "9179815129"
+        };
+
+        function toggleAuth(isReg) {
+            document.getElementById('loginBox').style.display = isReg ? 'none' : 'block';
+            document.getElementById('regBox').style.display = isReg ? 'block' : 'none';
+        }
+
+        function processReg() {
+            db.email = document.getElementById('rEmail').value;
+            db.phone = document.getElementById('rPhone').value;
+            
+            if(db.email && db.phone) {
+                alert("Registration Safal! Ab usi Email aur Mobile se Login karein.");
+                toggleAuth(false);
+            } else {
+                alert("Kripya puri details bharein.");
+            }
+        }
+
+        function checkLogin() {
+            let e = document.getElementById('logEmail').value;
+            let p = document.getElementById('logPass').value;
+
+            // Login check condition
+            if(e === db.email && p === db.phone) {
+                document.getElementById('authWrapper').style.display = 'none';
+                document.getElementById('mainWebsite').style.display = 'block';
+            } else {
+                alert("Email ya Password galat hai! Master login try karein.");
+            }
+        }
+
+        function showSec(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+            document.getElementById(id).classList.add('active-section');
+            window.scrollTo(0,0);
+        }
+
+        function runMyCode() {
+            let code = document.getElementById('codeArea').value;
+            let frame = document.getElementById('outputFrame').contentWindow.document;
+            frame.open();
+            frame.write(code);
+            frame.close();
+        }
+    </script>
+</body>
+</html>
